@@ -1,8 +1,60 @@
 //starting freelancer array with at least 2 objects [{name: 'Sam', occupation: 'Programmer', price: 50}]
 
+const freelancers = [
+  { name: "Eva", occupation: "Mentor", price: 80 },
+  { name: "Chuck", occupation: "Tax Consultant", price: 50 },
+];
+
+
 //array of names
 
+const nameList = [
+  "Craig",
+  "Charles",
+  "Emma",
+  "Fiona",
+  "George",
+  "Hannah",
+  "Issac",
+  "Jack",
+  "Katie",
+  "Mia",
+  "Olivia",
+  "Nathan",
+  "Atlas",
+  "Paul",
+  "Quinn",
+  "Ryan",
+  "Sophia",
+  "Thomas",
+  "Victor",
+  "Madie",
+];
+
 //array of occupations
+
+const jobList = [
+  "Engineer",
+  "Architect",
+  "Scientist",
+  "Doctor",
+  "Artist",
+  "Chef",
+  "Musician",
+  "Lawyer",
+  "Journalist",
+  "Plumber",
+  "Accountant",
+  "Pilot",
+  "Mechanic",
+  "Dog Trainer",
+  "Graphic Designer",
+  "Actor",
+  "Psychologist",
+  "Photographer",
+  "Librarian",
+  "Project Manager",
+];
 
 /**
  * create init function
@@ -22,6 +74,35 @@
  *
  */
 
+function init() {
+  const root = document.querySelector(".freelancer_container");
+
+  const table = document.createElement("table");
+  const thead = document.createElement("thead");
+  const tbody = document.createElement("tbody");
+  const header_row = document.createElement("tr");
+
+  for (let key in freelancers[0]) {
+    const th = document.createElement("th");
+    th.textContent = key;
+
+    header_row.append(th);
+  }
+
+  thead.append(header_row);
+  table.append(thead);
+  table.append(tbody);
+
+  if (!root) {
+    console.error("Element with class .freelancer_container not found.");
+    return;
+  }
+
+  root.append(table);
+  
+  renderFreelancer();
+}
+
 /**
  * Create function to render the freelancer array to the DOM
  *
@@ -38,6 +119,29 @@
  *      3. replace children of tbody with the elements created in the map
  */
 
+function renderFreelancer() {
+  const freelancerTable = document.createElement("tbody");
+
+  const freelancerElements = freelancers.map((freelancer) => {
+    const row = document.createElement("tr");
+
+    const freelancer_name = document.createElement("td");
+    freelancer_name.textContent = freelancer.name;
+
+    const freelancer_occupation = document.createElement("td");
+    freelancer_occupation.textContent = freelancer.occupation;
+
+    const freelancer_price = document.createElement("td");
+    freelancer_price.textContent = freelancer.price;
+
+    row.append(freelancer_name, freelancer_occupation, freelancer_price);
+
+    return row;
+  });
+
+  freelancerTable.replaceChildren(...freelancerElements);
+}
+
 /**
  * Create a function to render the average freelancer price to the DOM
  *
@@ -52,8 +156,17 @@
 /**
  * Create function to sum all prices in our freelancer array
  */
-function sum(arr) {
+function sum(freelancers) {
   //total price
+  let sum = 0;
+  for (i=0; i<freelancers.length; i++) {
+    let currentPrice = freelancers[i].price;
+    sum += currentPrice;
+    console.log(i);
+  }
+  
+  console.log(sum);
+  return sum;
 }
 
 /**
@@ -84,6 +197,22 @@ function avg(totalPrice, arr) {
  *
  */
 
+const addFreelancer = () => {
+  const new_name = nameList[Math.floor(Math.random() * nameList.length)];
+  const new_occupation = jobList[Math.floor(Math.random() * jobList.length)];;
+  const new_price = Math.floor(Math.random() * (140 - 20) + 20);
+  
+  console.log(new_name);
+  console.log(new_occupation);
+  console.log(new_price);
+}
+
+
+
 //setInterval calling the function that adds a new freelancer every second aka 1000 miliseconds
 
 //call init function
+
+init();
+addFreelancer();
+sum(freelancers);
