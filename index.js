@@ -1,8 +1,8 @@
 //starting freelancer array with at least 2 objects [{name: 'Sam', occupation: 'Programmer', price: 50}]
 
 const freelancers = [
-  { name: "Eva", occupation: "Mentor", price: 80 },
-  { name: "Chuck", occupation: "Tax Consultant", price: 50 },
+  { name: "Eva", occupation: "Mentor", price: 83 },
+  { name: "Chuck", occupation: "Tax Consultant", price: 54 },
 ];
 
 //array of names
@@ -74,7 +74,6 @@ const jobList = [
  */
 
 function init() {
-  
   const root = document.querySelector(".freelancer_container");
 
   const table = document.createElement("table");
@@ -95,24 +94,7 @@ function init() {
   root.append(table);
 
   renderFreelancer();
-  avg();
-  sum();
 }
-
-
-
-/**
- * Create a function to render the average freelancer price to the DOM
- *
- *      1. get average_price span and p tag from DOM
- *      2. call sum function with the freelancer array
- *      3. call avg function passing the calculated sum and the freelancer array
- *      4. update textContent of the span with the avg
- *          - if textContent doesn't work use innerHTML
- *      5. replace children of p tag with the updated span
- */
-
-
 
 /**
  * Create function to render the freelancer array to the DOM
@@ -131,7 +113,6 @@ function init() {
  */
 
 function renderFreelancer() {
- 
   const freelancerTable = document.querySelector("tbody");
 
   const freelancerElements = freelancers.map((freelancer) => {
@@ -153,10 +134,13 @@ function renderFreelancer() {
 
   freelancerTable.replaceChildren(...freelancerElements);
 
-  sum(freelancers);
-  avg(sum, freelancers);
-  console.log(freelancers);
+  let averagePrice = calculations();
 
+  //replaces average price with the new average
+  const averagePrice_html = document.querySelector("#average_price");
+  averagePrice_html.textContent = averagePrice.toFixed(2);
+
+  //console.log(freelancers);
   addFreelancer(freelancers, nameList, jobList);
 }
 
@@ -181,14 +165,11 @@ const addFreelancer = (freelancers, nameList, jobList) => {
   const new_occupation = jobList[Math.floor(Math.random() * jobList.length)];
   const new_price = Math.floor(Math.random() * (140 - 20) + 20);
 
-  freelancers.push({name: new_name, occupation: new_occupation, price: new_price});
-
-  //console.log(new_name);
-  //console.log(new_occupation);
-  //console.log(new_price);
-  //console.log(freelancers);
-
-  //renderFreelancer();
+  freelancers.push({
+    name: new_name,
+    occupation: new_occupation,
+    price: new_price,
+  });
 
   return freelancers;
 };
@@ -203,10 +184,8 @@ function sum(freelancers) {
   for (i = 0; i < freelancers.length; i++) {
     let currentPrice = freelancers[i].price;
     sum += currentPrice;
-    console.log(i);
   }
-
-  console.log(sum);
+  //console.log("Sum: " + sum);
   return sum;
 }
 
@@ -219,15 +198,20 @@ function sum(freelancers) {
  * @returns Number
  */
 
-
 function avg(totalPrice, arr) {
   return totalPrice / arr.length;
 }
 
+//running the calculation for the current freelancers
+function calculations() {
+  const costSum = sum(freelancers);
+  const averagePrice = avg(costSum, freelancers);
+
+  return averagePrice;
+}
 
 //call init function
 init();
 
-
 //setInterval calling the function that adds a new freelancer every second aka 1000 miliseconds
-setInterval(renderFreelancer, 4000)
+setInterval(renderFreelancer, 2000);
